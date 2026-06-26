@@ -7,6 +7,7 @@ import { buildTypeOrmOptions } from './database/typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { CategoriesModule } from './categories/categories.module';
+import { ProductsModule } from './products/products.module';
 import { HealthModule } from './health/health.module';
 
 @Module({
@@ -30,6 +31,7 @@ import { HealthModule } from './health/health.module';
     UsersModule,
     AuthModule,
     CategoriesModule,
+    ProductsModule,
     HealthModule,
   ],
 })

@@ -1,5 +1,6 @@
-import { Column, Entity, Index } from 'typeorm';
+import { Column, Entity, Index, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/entities/base.entity';
+import { Product } from '../../products/entities/product.entity';
 
 @Entity('categories')
 export class Category extends BaseEntity {
@@ -10,5 +11,6 @@ export class Category extends BaseEntity {
   @Column({ type: 'varchar', length: 500, nullable: true })
   description: string | null;
 
-  // OneToMany(() => Product) relation is added in the products step.
+  @OneToMany(() => Product, (product) => product.category)
+  products: Product[];
 }
