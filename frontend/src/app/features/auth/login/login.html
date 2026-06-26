@@ -8,6 +8,12 @@
       <p class="mt-1 text-sm text-slate-500">{{ 'auth.loginSubtitle' | translate }}</p>
     </div>
 
+    @if (failed()) {
+      <div class="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+        {{ 'auth.invalidCredentials' | translate }}
+      </div>
+    }
+
     <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
       <div>
         <label class="form-label" for="email">{{ 'auth.email' | translate }}</label>

@@ -25,9 +25,21 @@
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
     "emailInvalid": "الرجاء إدخال بريد إلكتروني صالح",
-    "passwordInvalid": "يجب أن تكون كلمة المرور 6 أحرف على الأقل"
+    "passwordInvalid": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
   },
   "dashboard": {
-    "welcome": "مرحباً"
+    "welcome": "مرحباً",
+    "totalProducts": "المنتجات",
+    "totalSales": "إجمالي المبيعات",
+    "revenue": "الإيرادات",
+    "itemsSold": "العناصر المباعة",
+    "inventoryValue": "قيمة المخزون",
+    "stockUnits": "وحدات المخزون",
+    "lowStock": "مخزون منخفض",
+    "outOfStock": "نفد المخزون",
+    "topProducts": "المنتجات الأكثر مبيعاً",
+    "dailyRevenue": "الإيرادات اليومية",
+    "noData": "لا توجد بيانات بعد"
   }
 }

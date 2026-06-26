@@ -21,6 +21,7 @@ export class Login {
   readonly language = inject(LanguageService);
 
   readonly loading = signal(false);
+  readonly failed = signal(false);
 
   readonly form = this.fb.nonNullable.group({
     email: ['manager@nard.io', [Validators.required, Validators.email]],
@@ -32,12 +33,15 @@ export class Login {
       this.form.markAllAsTouched();
       return;
     }
+    this.failed.set(false);
     this.loading.set(true);
     this.auth
       .login(this.form.getRawValue())
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: () => void this.router.navigate(['/']),
+        // 401s are intentionally not toasted globally, so show inline feedback here.
+        error: () => this.failed.set(true),
       });
   }
 }
