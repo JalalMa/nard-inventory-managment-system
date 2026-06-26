@@ -97,6 +97,17 @@
     "passwordInvalid": "Password must be at least 6 characters",
     "invalidCredentials": "Invalid email or password"
   },
+  "reports": {
+    "from": "From",
+    "to": "To",
+    "apply": "Apply",
+    "reset": "Reset",
+    "avgSale": "Avg. Sale",
+    "stockTitle": "Stock Report",
+    "lowStockItems": "Low Stock Items",
+    "noLowStock": "All items well stocked",
+    "byCategory": "By Category"
+  },
   "dashboard": {
     "welcome": "Welcome",
     "totalProducts": "Products",
