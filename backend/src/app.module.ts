@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ProductsModule } from './products/products.module';
 import { SalesModule } from './sales/sales.module';
+import { ReportsModule } from './reports/reports.module';
 import { RealtimeModule } from './realtime/realtime.module';
 import { HealthModule } from './health/health.module';
 
@@ -35,6 +36,7 @@ import { HealthModule } from './health/health.module';
     CategoriesModule,
     ProductsModule,
     SalesModule,
+    ReportsModule,
     RealtimeModule,
     HealthModule,
   ],

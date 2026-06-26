@@ -114,7 +114,7 @@ _Placeholders — added once the UI is implemented._
 - [x] Categories CRUD
 - [x] Products CRUD + advanced search/filter/pagination
 - [x] Sales, cart, invoices, real-time stock (Socket.IO)
-- [ ] Reports
+- [x] Reports
 - [ ] Angular frontend (auth, dashboard, products, sales, reports)
 - [ ] i18n (EN/AR + RTL)
 - [ ] Full Dockerization & deployment
