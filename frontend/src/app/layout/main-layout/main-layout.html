@@ -1,0 +1,71 @@
+<div class="flex h-full min-h-screen bg-slate-100">
+  <!-- Sidebar -->
+  <aside
+    class="fixed inset-y-0 z-40 w-64 transform border-e border-slate-200 bg-white transition-transform lg:static lg:translate-x-0"
+    [class.translate-x-0]="sidebarOpen()"
+    [class.-translate-x-full]="!sidebarOpen()"
+  >
+    <div class="flex h-16 items-center gap-2 border-b border-slate-200 px-6">
+      <span class="text-2xl">🟢</span>
+      <span class="text-lg font-bold text-slate-800">Nard<span class="text-primary-600">POS</span></span>
+    </div>
+    <nav class="flex flex-col gap-1 p-4">
+      @for (item of navItems(); track item.path) {
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="bg-primary-50 text-primary-700"
+          (click)="closeSidebar()"
+          class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
+        >
+          <span>{{ item.icon }}</span>
+          <span>{{ item.labelKey | translate }}</span>
+        </a>
+      }
+    </nav>
+  </aside>
+
+  <!-- Backdrop for mobile -->
+  @if (sidebarOpen()) {
+    <div class="fixed inset-0 z-30 bg-black/30 lg:hidden" (click)="closeSidebar()"></div>
+  }
+
+  <!-- Main column -->
+  <div class="flex min-w-0 flex-1 flex-col">
+    <header class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 lg:px-6">
+      <button
+        type="button"
+        class="rounded-lg p-2 text-slate-600 hover:bg-slate-100 lg:hidden"
+        (click)="toggleSidebar()"
+        aria-label="menu"
+      >
+        ☰
+      </button>
+
+      <div class="ms-auto flex items-center gap-3">
+        <button
+          type="button"
+          class="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          (click)="toggleLanguage()"
+        >
+          {{ language.current() === 'en' ? 'العربية' : 'English' }}
+        </button>
+
+        @if (user(); as currentUser) {
+          <div class="flex items-center gap-2">
+            <div class="hidden text-end sm:block">
+              <p class="text-sm font-medium text-slate-800">{{ currentUser.email }}</p>
+              <p class="text-xs text-slate-500">{{ currentUser.role }}</p>
+            </div>
+            <button type="button" class="btn-secondary" (click)="logout()">
+              {{ 'auth.logout' | translate }}
+            </button>
+          </div>
+        }
+      </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto p-4 lg:p-6">
+      <router-outlet />
+    </main>
+  </div>
+</div>

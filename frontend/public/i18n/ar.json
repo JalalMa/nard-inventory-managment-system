@@ -1,0 +1,33 @@
+{
+  "common": {
+    "comingSoon": "قريباً",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "search": "بحث",
+    "loading": "جارٍ التحميل...",
+    "actions": "إجراءات",
+    "confirm": "تأكيد"
+  },
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "products": "المنتجات",
+    "categories": "الفئات",
+    "pos": "نقطة البيع",
+    "sales": "المبيعات",
+    "reports": "التقارير"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "loginSubtitle": "سجّل الدخول لإدارة المخزون",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "emailInvalid": "الرجاء إدخال بريد إلكتروني صالح",
+    "passwordInvalid": "يجب أن تكون كلمة المرور 6 أحرف على الأقل"
+  },
+  "dashboard": {
+    "welcome": "مرحباً"
+  }
+}

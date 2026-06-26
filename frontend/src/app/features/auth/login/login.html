@@ -1,0 +1,50 @@
+<div class="flex min-h-screen items-center justify-center bg-slate-100 p-4">
+  <div class="card w-full max-w-md p-8">
+    <div class="mb-6 text-center">
+      <div class="mb-2 text-3xl">🟢</div>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Nard<span class="text-primary-600">POS</span>
+      </h1>
+      <p class="mt-1 text-sm text-slate-500">{{ 'auth.loginSubtitle' | translate }}</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+      <div>
+        <label class="form-label" for="email">{{ 'auth.email' | translate }}</label>
+        <input id="email" type="email" formControlName="email" class="form-input" autocomplete="username" />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <p class="mt-1 text-xs text-red-600">{{ 'auth.emailInvalid' | translate }}</p>
+        }
+      </div>
+
+      <div>
+        <label class="form-label" for="password">{{ 'auth.password' | translate }}</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="form-input"
+          autocomplete="current-password"
+        />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <p class="mt-1 text-xs text-red-600">{{ 'auth.passwordInvalid' | translate }}</p>
+        }
+      </div>
+
+      <button type="submit" class="btn-primary w-full" [disabled]="loading()">
+        @if (loading()) {
+          <app-spinner [size]="18" />
+        }
+        {{ 'auth.login' | translate }}
+      </button>
+    </form>
+
+    <button
+      type="button"
+      class="mt-4 w-full text-center text-sm text-slate-500 hover:text-slate-700"
+      (click)="language.toggle()"
+    >
+      {{ language.current() === 'en' ? 'العربية' : 'English' }}
+    </button>
+  </div>
+</div>

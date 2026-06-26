@@ -1,0 +1,33 @@
+{
+  "common": {
+    "comingSoon": "Coming soon",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "loading": "Loading...",
+    "actions": "Actions",
+    "confirm": "Confirm"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "categories": "Categories",
+    "pos": "Point of Sale",
+    "sales": "Sales",
+    "reports": "Reports"
+  },
+  "auth": {
+    "login": "Sign in",
+    "logout": "Sign out",
+    "loginSubtitle": "Sign in to manage your inventory",
+    "email": "Email",
+    "password": "Password",
+    "emailInvalid": "Please enter a valid email",
+    "passwordInvalid": "Password must be at least 6 characters"
+  },
+  "dashboard": {
+    "welcome": "Welcome"
+  }
+}
