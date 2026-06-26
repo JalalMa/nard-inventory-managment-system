@@ -110,7 +110,7 @@ _Placeholders — added once the UI is implemented._
 
 - [x] Repo foundation (tooling, Docker Compose, env templates)
 - [x] Backend core (config, TypeORM, Swagger, global filters/pipes)
-- [ ] Authentication & RBAC (JWT + refresh tokens)
+- [x] Authentication & RBAC (JWT + refresh tokens)
 - [ ] Categories CRUD
 - [ ] Products CRUD + advanced search/filter/pagination
 - [ ] Sales, cart, invoices, real-time stock (Socket.IO)
