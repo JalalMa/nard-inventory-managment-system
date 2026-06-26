@@ -23,9 +23,17 @@ export const routes: Routes = [
         path: 'dashboard',
         loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
       },
+      {
+        path: 'products',
+        loadComponent: () =>
+          import('./features/products/product-list/product-list').then((m) => m.ProductList),
+      },
+      {
+        path: 'categories',
+        loadComponent: () =>
+          import('./features/categories/category-list/category-list').then((m) => m.CategoryList),
+      },
       // Replaced by their real feature components in later steps.
-      { path: 'products', loadComponent: placeholder },
-      { path: 'categories', loadComponent: placeholder },
       { path: 'pos', loadComponent: placeholder },
       { path: 'sales', loadComponent: placeholder },
       {

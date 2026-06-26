@@ -1,0 +1,23 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+  <div>
+    <label class="form-label" for="cat-name">{{ 'category.name' | translate }}</label>
+    <input id="cat-name" type="text" formControlName="name" class="form-input" />
+    @if (form.controls.name.touched && form.controls.name.invalid) {
+      <p class="mt-1 text-xs text-red-600">{{ 'category.nameInvalid' | translate }}</p>
+    }
+  </div>
+
+  <div>
+    <label class="form-label" for="cat-desc">{{ 'category.description' | translate }}</label>
+    <textarea id="cat-desc" rows="3" formControlName="description" class="form-input"></textarea>
+  </div>
+
+  <div class="flex justify-end gap-2 pt-2">
+    <button type="button" class="btn-secondary" (click)="cancel.emit()">
+      {{ 'common.cancel' | translate }}
+    </button>
+    <button type="submit" class="btn-primary" [disabled]="saving()">
+      {{ 'common.save' | translate }}
+    </button>
+  </div>
+</form>

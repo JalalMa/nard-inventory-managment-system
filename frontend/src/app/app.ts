@@ -2,11 +2,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LanguageService } from './core/services/language.service';
 import { SocketService } from './core/services/socket.service';
+import { ConfirmDialog } from './shared/components/confirm/confirm-dialog';
 import { ToastContainer } from './shared/components/toast-container/toast-container';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ToastContainer],
+  imports: [RouterOutlet, ToastContainer, ConfirmDialog],
   templateUrl: './app.html',
 })
 export class App implements OnInit {
