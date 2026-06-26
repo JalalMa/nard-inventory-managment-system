@@ -1,0 +1,118 @@
+<section class="space-y-4">
+  <h1 class="text-2xl font-bold text-slate-800">{{ 'nav.pos' | translate }}</h1>
+
+  <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+    <!-- Product picker -->
+    <div class="card p-4 lg:col-span-2">
+      <input
+        [formControl]="searchControl"
+        type="search"
+        class="form-input mb-4"
+        [placeholder]="'product.searchPlaceholder' | translate"
+      />
+
+      @if (loading()) {
+        <div class="flex justify-center py-12"><app-spinner [size]="32" /></div>
+      } @else {
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          @for (product of products(); track product.id) {
+            <button
+              type="button"
+              class="flex flex-col rounded-lg border border-slate-200 p-3 text-start transition hover:border-primary-400 hover:shadow-sm disabled:opacity-40"
+              [disabled]="product.stockQuantity === 0"
+              (click)="addToCart(product)"
+            >
+              <span class="truncate font-medium text-slate-800">{{ product.name }}</span>
+              <span class="text-sm text-primary-600">
+                {{ product.price | currency: 'USD' : 'symbol-narrow' }}
+              </span>
+              <span class="mt-1 text-xs text-slate-400">
+                {{ 'product.stock' | translate }}: {{ product.stockQuantity }}
+              </span>
+            </button>
+          } @empty {
+            <p class="col-span-full py-10 text-center text-slate-400">
+              {{ 'product.empty' | translate }}
+            </p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Cart -->
+    <div class="card flex flex-col p-4">
+      <h2 class="mb-3 font-semibold text-slate-800">
+        {{ 'pos.cart' | translate }} ({{ cart.count() }})
+      </h2>
+
+      <div class="flex-1 space-y-2 overflow-y-auto">
+        @for (item of cart.items(); track item.product.id) {
+          <div class="flex items-center gap-2 rounded-lg border border-slate-100 p-2">
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-sm font-medium text-slate-800">{{ item.product.name }}</p>
+              <p class="text-xs text-slate-500">
+                {{ item.product.price | currency: 'USD' : 'symbol-narrow' }}
+              </p>
+            </div>
+            <input
+              type="number"
+              min="1"
+              [max]="item.product.stockQuantity"
+              [value]="item.quantity"
+              (input)="changeQuantity(item.product.id, +$any($event.target).value)"
+              class="form-input w-16 px-2 py-1 text-center"
+            />
+            <button
+              type="button"
+              class="text-red-500 hover:text-red-700"
+              (click)="cart.remove(item.product.id)"
+              aria-label="remove"
+            >
+              🗑️
+            </button>
+          </div>
+        } @empty {
+          <p class="py-10 text-center text-sm text-slate-400">{{ 'pos.empty' | translate }}</p>
+        }
+      </div>
+
+      <div class="mt-4 border-t border-slate-200 pt-4">
+        <div class="mb-3 flex items-center justify-between">
+          <span class="text-slate-600">{{ 'invoice.total' | translate }}</span>
+          <span class="text-xl font-bold text-slate-800">
+            {{ cart.total() | currency: 'USD' : 'symbol-narrow' }}
+          </span>
+        </div>
+        <div class="flex gap-2">
+          <button
+            type="button"
+            class="btn-secondary flex-1"
+            [disabled]="cart.isEmpty()"
+            (click)="cart.clear()"
+          >
+            {{ 'pos.clear' | translate }}
+          </button>
+          <button
+            type="button"
+            class="btn-primary flex-1"
+            [disabled]="cart.isEmpty() || checkingOut()"
+            (click)="checkout()"
+          >
+            {{ 'pos.checkout' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (invoice(); as inv) {
+    <app-modal [title]="'invoice.title' | translate" (dismiss)="newSale()">
+      <app-invoice [invoice]="inv" />
+      <div class="no-print mt-2 flex justify-end">
+        <button type="button" class="btn-primary" (click)="newSale()">
+          {{ 'pos.newSale' | translate }}
+        </button>
+      </div>
+    </app-modal>
+  }
+</section>

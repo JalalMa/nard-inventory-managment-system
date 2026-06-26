@@ -1,0 +1,56 @@
+<section class="space-y-4">
+  <h1 class="text-2xl font-bold text-slate-800">{{ 'nav.sales' | translate }}</h1>
+
+  <div class="card p-4">
+    @if (loading()) {
+      <div class="flex justify-center py-12"><app-spinner [size]="32" /></div>
+    } @else {
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-slate-200 text-slate-500">
+              <th class="px-3 py-2 text-start font-medium">{{ 'sales.id' | translate }}</th>
+              <th class="px-3 py-2 text-start font-medium">{{ 'sales.date' | translate }}</th>
+              <th class="px-3 py-2 text-start font-medium">{{ 'sales.cashier' | translate }}</th>
+              <th class="px-3 py-2 text-end font-medium">{{ 'sales.items' | translate }}</th>
+              <th class="px-3 py-2 text-end font-medium">{{ 'invoice.total' | translate }}</th>
+              <th class="px-3 py-2 text-end font-medium">{{ 'common.actions' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (invoice of invoices(); track invoice.saleId) {
+              <tr class="border-b border-slate-100 hover:bg-slate-50">
+                <td class="px-3 py-2 font-medium text-slate-800">#{{ invoice.saleId }}</td>
+                <td class="px-3 py-2 text-slate-600">{{ invoice.createdAt | date: 'medium' }}</td>
+                <td class="px-3 py-2 text-slate-600">{{ invoice.cashier }}</td>
+                <td class="px-3 py-2 text-end text-slate-600">{{ itemCount(invoice) }}</td>
+                <td class="px-3 py-2 text-end font-semibold text-slate-800">
+                  {{ invoice.total | currency: 'USD' : 'symbol-narrow' }}
+                </td>
+                <td class="px-3 py-2 text-end">
+                  <button type="button" class="btn-secondary px-2 py-1" (click)="open(invoice)">
+                    {{ 'sales.view' | translate }}
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="px-3 py-10 text-center text-slate-400">
+                  {{ 'sales.empty' | translate }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <app-pagination [meta]="meta()" (pageChange)="onPageChange($event)" />
+    }
+  </div>
+
+  @if (selected(); as invoice) {
+    <app-modal [title]="'invoice.title' | translate" (dismiss)="close()">
+      <app-invoice [invoice]="invoice" />
+    </app-modal>
+  }
+</section>

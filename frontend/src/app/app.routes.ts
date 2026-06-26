@@ -33,9 +33,15 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/categories/category-list/category-list').then((m) => m.CategoryList),
       },
-      // Replaced by their real feature components in later steps.
-      { path: 'pos', loadComponent: placeholder },
-      { path: 'sales', loadComponent: placeholder },
+      {
+        path: 'pos',
+        loadComponent: () => import('./features/pos/pos').then((m) => m.Pos),
+      },
+      {
+        path: 'sales',
+        loadComponent: () =>
+          import('./features/sales/sales-list/sales-list').then((m) => m.SalesList),
+      },
       {
         path: 'reports',
         canActivate: [roleGuard],

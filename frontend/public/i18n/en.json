@@ -52,6 +52,33 @@
     "deleteMessage": "Delete \"{{name}}\"? This cannot be undone.",
     "empty": "No products found"
   },
+  "pos": {
+    "cart": "Cart",
+    "empty": "Cart is empty",
+    "clear": "Clear",
+    "checkout": "Checkout",
+    "newSale": "New Sale",
+    "checkoutSuccess": "Sale completed",
+    "stockLimit": "No more stock available for \"{{name}}\""
+  },
+  "invoice": {
+    "title": "Invoice",
+    "cashier": "Cashier",
+    "item": "Item",
+    "qty": "Qty",
+    "unitPrice": "Unit Price",
+    "lineTotal": "Line Total",
+    "total": "Total",
+    "print": "Print"
+  },
+  "sales": {
+    "id": "Sale",
+    "date": "Date",
+    "cashier": "Cashier",
+    "items": "Items",
+    "view": "View",
+    "empty": "No sales yet"
+  },
   "nav": {
     "dashboard": "Dashboard",
     "products": "Products",

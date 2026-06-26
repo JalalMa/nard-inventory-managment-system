@@ -44,3 +44,23 @@ body {
 [dir='rtl'] {
   direction: rtl;
 }
+
+/* Print only the active invoice (.print-area); hide everything else. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+  .print-area {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    width: 100%;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
