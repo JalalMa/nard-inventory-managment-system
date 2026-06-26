@@ -1,0 +1,77 @@
+# Root orchestration for the Nard Inventory & Sales Management System.
+#
+# Services are introduced incrementally as the build progresses:
+#   - db    : MySQL 8 (available now)
+#   - api   : NestJS backend   (Dockerfile added in the backend step)
+#   - web   : Angular frontend (Dockerfile added in the frontend step)
+#
+# Until their Dockerfiles exist you can run the database on its own:
+#   docker compose up -d db
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: nard-db
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - nard-net
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nard-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DB_HOST: db
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - nard-net
+    profiles:
+      - full
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nard-web
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT}:80"
+    depends_on:
+      - api
+    networks:
+      - nard-net
+    profiles:
+      - full
+
+volumes:
+  mysql-data:
+    driver: local
+
+networks:
+  nard-net:
+    driver: bridge
