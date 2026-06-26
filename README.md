@@ -109,7 +109,7 @@ _Placeholders — added once the UI is implemented._
 ## Roadmap
 
 - [x] Repo foundation (tooling, Docker Compose, env templates)
-- [ ] Backend core (config, TypeORM, Swagger, global filters/pipes)
+- [x] Backend core (config, TypeORM, Swagger, global filters/pipes)
 - [ ] Authentication & RBAC (JWT + refresh tokens)
 - [ ] Categories CRUD
 - [ ] Products CRUD + advanced search/filter/pagination
