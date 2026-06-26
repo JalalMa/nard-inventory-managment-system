@@ -1,6 +1,7 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CategoriesService } from '../categories/categories.service';
+import { StockGateway } from '../realtime/stock.gateway';
 import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
 import { QueryProductDto } from './dto/query-product.dto';
@@ -38,6 +39,7 @@ describe('ProductsService', () => {
     remove: jest.Mock;
   };
   let categoriesService: { findOne: jest.Mock };
+  let stockGateway: { emitStockUpdated: jest.Mock };
   let qb: QbMock;
 
   beforeEach(() => {
@@ -50,9 +52,11 @@ describe('ProductsService', () => {
       remove: jest.fn().mockResolvedValue(undefined),
     };
     categoriesService = { findOne: jest.fn().mockResolvedValue({ id: 1 }) };
+    stockGateway = { emitStockUpdated: jest.fn() };
     service = new ProductsService(
       repo as unknown as Repository<Product>,
       categoriesService as unknown as CategoriesService,
+      stockGateway as unknown as StockGateway,
     );
   });
 

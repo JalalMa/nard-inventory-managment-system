@@ -113,7 +113,7 @@ _Placeholders — added once the UI is implemented._
 - [x] Authentication & RBAC (JWT + refresh tokens)
 - [x] Categories CRUD
 - [x] Products CRUD + advanced search/filter/pagination
-- [ ] Sales, cart, invoices, real-time stock (Socket.IO)
+- [x] Sales, cart, invoices, real-time stock (Socket.IO)
 - [ ] Reports
 - [ ] Angular frontend (auth, dashboard, products, sales, reports)
 - [ ] i18n (EN/AR + RTL)

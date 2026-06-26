@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { PaginatedResponseDto } from '../common/dto/paginated-response.dto';
 import { CategoriesService } from '../categories/categories.service';
+import { StockGateway } from '../realtime/stock.gateway';
 import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -18,6 +19,7 @@ export class ProductsService {
     @InjectRepository(Product)
     private readonly productsRepository: Repository<Product>,
     private readonly categoriesService: CategoriesService,
+    private readonly stockGateway: StockGateway,
   ) {}
 
   async findAll(query: QueryProductDto): Promise<PaginatedResponseDto<Product>> {
@@ -57,8 +59,15 @@ export class ProductsService {
     if (dto.categoryId && dto.categoryId !== product.categoryId) {
       await this.categoriesService.findOne(dto.categoryId);
     }
+    const stockChanged =
+      dto.stockQuantity !== undefined && dto.stockQuantity !== product.stockQuantity;
     Object.assign(product, dto);
     await this.productsRepository.save(product);
+
+    // RT-1: broadcast on every stock mutation originating from a product edit.
+    if (stockChanged) {
+      this.stockGateway.emitStockUpdated({ productId: id, stockQuantity: product.stockQuantity });
+    }
     return this.findOne(id);
   }
 

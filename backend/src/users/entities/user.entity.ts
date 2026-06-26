@@ -1,6 +1,7 @@
-import { Column, Entity, Index } from 'typeorm';
+import { Column, Entity, Index, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../common/entities/base.entity';
 import { UserRole } from '../../common/enums/user-role.enum';
+import { Sale } from '../../sales/entities/sale.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -20,4 +21,7 @@ export class User extends BaseEntity {
    */
   @Column({ name: 'hashed_refresh_token', type: 'varchar', length: 255, nullable: true })
   hashedRefreshToken: string | null;
+
+  @OneToMany(() => Sale, (sale) => sale.user)
+  sales: Sale[];
 }

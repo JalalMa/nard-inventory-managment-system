@@ -26,6 +26,7 @@ describe('AuthService', () => {
     passwordHash: 'hashed',
     role: UserRole.MANAGER,
     hashedRefreshToken: null,
+    sales: [],
     createdAt: new Date(),
     updatedAt: new Date(),
     ...overrides,
