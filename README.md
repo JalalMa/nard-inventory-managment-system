@@ -151,16 +151,6 @@ running.
 
 ---
 
-## Screenshots
-
-_Placeholders — added once the UI is implemented._
-
-| Dashboard | Products | Sales |
-| --------- | -------- | ----- |
-| _TBD_     | _TBD_    | _TBD_ |
-
----
-
 ## Roadmap
 
 - [x] Repo foundation (tooling, Docker Compose, env templates)
