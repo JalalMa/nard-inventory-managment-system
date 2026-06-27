@@ -2,12 +2,14 @@
   <!-- Sidebar -->
   <aside
     class="fixed inset-y-0 z-40 w-64 transform border-e border-slate-200 bg-white transition-transform lg:static lg:translate-x-0"
-    [class.translate-x-0]="sidebarOpen()"
-    [class.-translate-x-full]="!sidebarOpen()"
+    [class]="
+      sidebarOpen() ? 'translate-x-0' : 'max-lg:ltr:-translate-x-full max-lg:rtl:translate-x-full'
+    "
   >
     <div class="flex h-16 items-center gap-2 border-b border-slate-200 px-6">
-      <span class="text-2xl">🟢</span>
-      <span class="text-lg font-bold text-slate-800">Nard<span class="text-primary-600">POS</span></span>
+      <!-- <span class="text-2xl">🟢</span>
+      <span class="text-lg font-bold text-slate-800">Nard<span class="text-primary-600">POS</span></span> -->
+      <img src="/Logo-Nard.png" alt="NardPOS Logo" class="h-auto w-20" />
     </div>
     <nav class="flex flex-col gap-1 p-4">
       @for (item of navItems(); track item.path) {
@@ -31,7 +33,9 @@
 
   <!-- Main column -->
   <div class="flex min-w-0 flex-1 flex-col">
-    <header class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 lg:px-6">
+    <header
+      class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 lg:px-6"
+    >
       <button
         type="button"
         class="rounded-lg p-2 text-slate-600 hover:bg-slate-100 lg:hidden"

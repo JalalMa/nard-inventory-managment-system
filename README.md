@@ -12,13 +12,13 @@ stock updates, and review reports — all behind JWT auth with role-based access
 
 ## Tech Stack
 
-| Layer       | Technology                                                            |
-| ----------- | --------------------------------------------------------------------- |
-| Frontend    | Angular (standalone components), TypeScript, SCSS, TailwindCSS, RxJS, Signals, ngx-translate, Socket.IO client |
-| Backend     | NestJS, TypeScript, TypeORM, JWT, RBAC, Socket.IO, Swagger            |
-| Database    | MySQL 8                                                               |
-| Deployment  | Docker, Docker Compose                                                |
-| Testing     | Jest (backend), Jasmine + Karma (frontend)                            |
+| Layer      | Technology                                                                                                     |
+| ---------- | -------------------------------------------------------------------------------------------------------------- |
+| Frontend   | Angular (standalone components), TypeScript, SCSS, TailwindCSS, RxJS, Signals, ngx-translate, Socket.IO client |
+| Backend    | NestJS, TypeScript, TypeORM, JWT, RBAC, Socket.IO, Swagger                                                     |
+| Database   | MySQL 8                                                                                                        |
+| Deployment | Docker, Docker Compose                                                                                         |
+| Testing    | Jest (backend), Jasmine + Karma (frontend)                                                                     |
 
 ---
 
@@ -95,11 +95,17 @@ the Angular app served by nginx. Then open:
 - **API (proxied):** http://localhost:4200/api
 - **Swagger:** http://localhost:3000/api/docs
 
+### Stop everything in Docker
+
+```bash
+docker compose --profile full down
+```
+
 ### Seeded accounts
 
-| Role | Email | Password |
-| ---- | ----- | -------- |
-| Manager | `manager@nard.io` | `Manager123!` |
+| Role     | Email              | Password       |
+| -------- | ------------------ | -------------- |
+| Manager  | `manager@nard.io`  | `Manager123!`  |
 | Employee | `employee@nard.io` | `Employee123!` |
 
 > Managers can mutate inventory, run sales, and view reports. Employees can

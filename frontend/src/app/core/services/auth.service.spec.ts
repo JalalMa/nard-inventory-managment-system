@@ -1,6 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { UserRole } from '../enums/user-role.enum';
 import { AuthResponse } from '../models/auth.model';
@@ -9,6 +10,7 @@ import { AuthService } from './auth.service';
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
+  let routerSpy: jasmine.SpyObj<Router>;
 
   const managerResponse: AuthResponse = {
     user: { id: 1, email: 'manager@nard.io', role: UserRole.MANAGER },
@@ -18,8 +20,14 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     localStorage.clear();
+    routerSpy = jasmine.createSpyObj<Router>('Router', ['navigate']);
     TestBed.configureTestingModule({
-      providers: [AuthService, provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        AuthService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: Router, useValue: routerSpy },
+      ],
     });
     service = TestBed.inject(AuthService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -53,6 +61,7 @@ describe('AuthService', () => {
 
     expect(service.isAuthenticated()).toBe(false);
     expect(service.getAccessToken()).toBeNull();
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['/auth/login']);
   });
 
   it('sends the refresh token as a bearer header', () => {

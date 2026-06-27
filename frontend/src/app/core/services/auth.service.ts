@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { finalize, Observable, shareReplay, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { UserRole } from '../enums/user-role.enum';
@@ -11,6 +12,7 @@ import { TokenStorageService } from './token-storage.service';
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly storage = inject(TokenStorageService);
+  private readonly router = inject(Router);
   private readonly baseUrl = `${environment.apiUrl}/auth`;
 
   /** Reactive auth state exposed to the app via signals. */
@@ -54,6 +56,7 @@ export class AuthService {
     // Best-effort server-side invalidation; local state is cleared regardless.
     this.http.post(`${this.baseUrl}/logout`, {}).subscribe({ error: () => undefined });
     this.clearSession();
+    void this.router.navigate(['/auth/login']);
   }
 
   clearSession(): void {
