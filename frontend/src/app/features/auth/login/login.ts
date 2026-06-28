@@ -22,6 +22,11 @@ export class Login {
 
   readonly loading = signal(false);
   readonly failed = signal(false);
+  readonly showPassword = signal(false);
+
+  togglePassword(): void {
+    this.showPassword.update((shown) => !shown);
+  }
 
   readonly form = this.fb.nonNullable.group({
     email: ['manager@nard.io', [Validators.required, Validators.email]],

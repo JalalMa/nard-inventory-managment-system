@@ -1,5 +1,5 @@
 <section class="space-y-6">
-  <h1 class="text-2xl font-bold text-slate-800">{{ 'nav.reports' | translate }}</h1>
+  <h1 class="text-2xl font-bold text-[#222756]">{{ 'nav.reports' | translate }}</h1>
 
   <!-- Sales report -->
   <div class="space-y-4">
@@ -26,11 +26,15 @@
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <app-stat-card
           [label]="'dashboard.revenue' | translate"
-          [value]="sales.totalRevenue | currency: 'USD' : 'symbol-narrow'"
+          [value]="sales.totalRevenue | currency: 'JD' : 'symbol-narrow'"
           icon="💰"
           iconClass="bg-amber-50 text-amber-600"
         />
-        <app-stat-card [label]="'dashboard.totalSales' | translate" [value]="sales.totalSales" icon="🧾" />
+        <app-stat-card
+          [label]="'dashboard.totalSales' | translate"
+          [value]="sales.totalSales"
+          icon="🧾"
+        />
         <app-stat-card
           [label]="'dashboard.itemsSold' | translate"
           [value]="sales.totalItemsSold"
@@ -39,7 +43,7 @@
         />
         <app-stat-card
           [label]="'reports.avgSale' | translate"
-          [value]="sales.averageSaleValue | currency: 'USD' : 'symbol-narrow'"
+          [value]="sales.averageSaleValue | currency: 'JD' : 'symbol-narrow'"
           icon="📊"
           iconClass="bg-emerald-50 text-emerald-600"
         />
@@ -47,7 +51,9 @@
 
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div class="card p-5">
-          <h2 class="mb-4 font-semibold text-slate-800">{{ 'dashboard.topProducts' | translate }}</h2>
+          <h2 class="mb-4 font-semibold text-slate-800">
+            {{ 'dashboard.topProducts' | translate }}
+          </h2>
           @if (sales.topProducts.length) {
             <table class="w-full text-sm">
               <tbody>
@@ -56,35 +62,44 @@
                     <td class="py-2 text-slate-700">{{ p.name }}</td>
                     <td class="py-2 text-end text-slate-500">{{ p.quantitySold }}</td>
                     <td class="py-2 text-end font-medium text-slate-800">
-                      {{ p.revenue | currency: 'USD' : 'symbol-narrow' }}
+                      {{ p.revenue | currency: 'JD' : 'symbol-narrow' }}
                     </td>
                   </tr>
                 }
               </tbody>
             </table>
           } @else {
-            <p class="py-6 text-center text-sm text-slate-400">{{ 'dashboard.noData' | translate }}</p>
+            <p class="py-6 text-center text-sm text-slate-400">
+              {{ 'dashboard.noData' | translate }}
+            </p>
           }
         </div>
 
         <div class="card p-5">
-          <h2 class="mb-4 font-semibold text-slate-800">{{ 'dashboard.dailyRevenue' | translate }}</h2>
+          <h2 class="mb-4 font-semibold text-slate-800">
+            {{ 'dashboard.dailyRevenue' | translate }}
+          </h2>
           @if (sales.dailyRevenue.length) {
             <div class="space-y-3">
               @for (d of sales.dailyRevenue; track d.date) {
                 <div>
                   <div class="mb-1 flex justify-between text-xs text-slate-500">
                     <span>{{ d.date }}</span>
-                    <span>{{ d.revenue | currency: 'USD' : 'symbol-narrow' }}</span>
+                    <span>{{ d.revenue | currency: 'JD' : 'symbol-narrow' }}</span>
                   </div>
                   <div class="h-2 w-full rounded-full bg-slate-100">
-                    <div class="h-2 rounded-full bg-primary-500" [style.width]="barWidth(d.revenue)"></div>
+                    <div
+                      class="h-2 rounded-full bg-primary-500"
+                      [style.width]="barWidth(d.revenue)"
+                    ></div>
                   </div>
                 </div>
               }
             </div>
           } @else {
-            <p class="py-6 text-center text-sm text-slate-400">{{ 'dashboard.noData' | translate }}</p>
+            <p class="py-6 text-center text-sm text-slate-400">
+              {{ 'dashboard.noData' | translate }}
+            </p>
           }
         </div>
       </div>
@@ -100,11 +115,15 @@
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <app-stat-card
           [label]="'dashboard.inventoryValue' | translate"
-          [value]="stock.totalInventoryValue | currency: 'USD' : 'symbol-narrow'"
+          [value]="stock.totalInventoryValue | currency: 'JD' : 'symbol-narrow'"
           icon="🏦"
           iconClass="bg-sky-50 text-sky-600"
         />
-        <app-stat-card [label]="'dashboard.stockUnits' | translate" [value]="stock.totalStockUnits | number" icon="📦" />
+        <app-stat-card
+          [label]="'dashboard.stockUnits' | translate"
+          [value]="stock.totalStockUnits | number"
+          icon="📦"
+        />
         <app-stat-card
           [label]="'dashboard.lowStock' | translate"
           [value]="stock.lowStockCount"
@@ -121,7 +140,9 @@
 
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div class="card p-5">
-          <h3 class="mb-4 font-semibold text-slate-800">{{ 'reports.lowStockItems' | translate }}</h3>
+          <h3 class="mb-4 font-semibold text-slate-800">
+            {{ 'reports.lowStockItems' | translate }}
+          </h3>
           @if (stock.lowStock.length) {
             <table class="w-full text-sm">
               <tbody>
@@ -129,13 +150,17 @@
                   <tr class="border-b border-slate-100">
                     <td class="py-2 text-slate-700">{{ item.name }}</td>
                     <td class="py-2 text-slate-400">{{ item.categoryName || '—' }}</td>
-                    <td class="py-2 text-end font-semibold text-amber-600">{{ item.stockQuantity }}</td>
+                    <td class="py-2 text-end font-semibold text-amber-600">
+                      {{ item.stockQuantity }}
+                    </td>
                   </tr>
                 }
               </tbody>
             </table>
           } @else {
-            <p class="py-6 text-center text-sm text-slate-400">{{ 'reports.noLowStock' | translate }}</p>
+            <p class="py-6 text-center text-sm text-slate-400">
+              {{ 'reports.noLowStock' | translate }}
+            </p>
           }
         </div>
 
@@ -146,7 +171,9 @@
               <tr class="border-b border-slate-200 text-xs text-slate-500">
                 <th class="py-2 text-start font-medium">{{ 'product.category' | translate }}</th>
                 <th class="py-2 text-end font-medium">{{ 'dashboard.stockUnits' | translate }}</th>
-                <th class="py-2 text-end font-medium">{{ 'dashboard.inventoryValue' | translate }}</th>
+                <th class="py-2 text-end font-medium">
+                  {{ 'dashboard.inventoryValue' | translate }}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -155,7 +182,7 @@
                   <td class="py-2 text-slate-700">{{ cat.categoryName }}</td>
                   <td class="py-2 text-end text-slate-600">{{ cat.stockUnits | number }}</td>
                   <td class="py-2 text-end font-medium text-slate-800">
-                    {{ cat.inventoryValue | currency: 'USD' : 'symbol-narrow' }}
+                    {{ cat.inventoryValue | currency: 'JD' : 'symbol-narrow' }}
                   </td>
                 </tr>
               }

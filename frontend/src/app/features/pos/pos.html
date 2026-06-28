@@ -1,5 +1,5 @@
 <section class="space-y-4">
-  <h1 class="text-2xl font-bold text-slate-800 w-[90%]">{{ 'nav.pos' | translate }}</h1>
+  <h1 class="text-2xl font-bold text-[#222756] w-[90%]">{{ 'nav.pos' | translate }}</h1>
 
   <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
     <!-- Product picker -->
@@ -18,13 +18,26 @@
           @for (product of products(); track product.id) {
             <button
               type="button"
-              class="flex flex-col rounded-lg border border-slate-200 p-3 text-start transition hover:border-primary-400 hover:shadow-sm disabled:opacity-40"
+              class="relative flex flex-col rounded-lg border p-3 text-start transition hover:shadow-sm disabled:opacity-40"
+              [class.border-primary-500]="cartProductIds().has(product.id)"
+              [class.bg-primary-50]="cartProductIds().has(product.id)"
+              [class.ring-1]="cartProductIds().has(product.id)"
+              [class.ring-primary-500]="cartProductIds().has(product.id)"
+              [class.border-slate-200]="!cartProductIds().has(product.id)"
+              [class.hover:border-[#86DE76]]="!cartProductIds().has(product.id)"
               [disabled]="product.stockQuantity === 0"
               (click)="addToCart(product)"
             >
-              <span class="truncate font-medium text-slate-800">{{ product.name }}</span>
+              @if (cartProductIds().has(product.id)) {
+                <span
+                  class="absolute end-2 top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary-600 px-1 text-xs font-bold text-white"
+                >
+                  {{ cartQuantity(product.id) }}
+                </span>
+              }
+              <span class="truncate pe-6 font-medium text-slate-800">{{ product.name }}</span>
               <span class="text-sm text-primary-600">
-                {{ product.price | currency: 'USD' : 'symbol-narrow' }}
+                {{ product.price | currency: 'JD' : 'symbol-narrow' }}
               </span>
               <span class="mt-1 text-xs text-slate-400">
                 {{ 'product.stock' | translate }}: {{ product.stockQuantity }}
@@ -41,17 +54,17 @@
 
     <!-- Cart -->
     <div class="card flex flex-col p-4">
-      <h2 class="mb-3 font-semibold text-slate-800">
+      <h2 class="mb-3 font-semibold text-primary-800">
         {{ 'pos.cart' | translate }} ({{ cart.count() }})
       </h2>
 
       <div class="flex-1 space-y-2 overflow-y-auto">
         @for (item of cart.items(); track item.product.id) {
-          <div class="flex items-center gap-2 rounded-lg border border-slate-100 p-2">
+          <div class="flex items-center gap-2 rounded-lg border border-slate-200 p-2">
             <div class="min-w-0 flex-1">
               <p class="truncate text-sm font-medium text-slate-800">{{ item.product.name }}</p>
-              <p class="text-xs text-slate-500">
-                {{ item.product.price | currency: 'USD' : 'symbol-narrow' }}
+              <p class="text-xs text-primary-600">
+                {{ item.product.price | currency: 'JD' : 'symbol-narrow' }}
               </p>
             </div>
             <input
@@ -64,11 +77,27 @@
             />
             <button
               type="button"
-              class="text-red-500 hover:text-red-700"
+              class="text-red-500 transition-colors hover:text-red-700"
               (click)="cart.remove(item.product.id)"
               aria-label="remove"
             >
-              🗑️
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 6h18" />
+                <path
+                  d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                />
+                <line x1="10" x2="10" y1="11" y2="17" />
+                <line x1="14" x2="14" y1="11" y2="17" />
+              </svg>
             </button>
           </div>
         } @empty {
@@ -80,7 +109,7 @@
         <div class="mb-3 flex items-center justify-between">
           <span class="text-slate-600">{{ 'invoice.total' | translate }}</span>
           <span class="text-xl font-bold text-slate-800">
-            {{ cart.total() | currency: 'USD' : 'symbol-narrow' }}
+            {{ cart.total() | currency: 'JD' : 'symbol-narrow' }}
           </span>
         </div>
         <div class="flex gap-2">
@@ -107,8 +136,11 @@
 
   @if (invoice(); as inv) {
     <app-modal [title]="'invoice.title' | translate" (dismiss)="newSale()">
-      <app-invoice [invoice]="inv" />
-      <div class="no-print mt-2 flex justify-end">
+      <app-invoice #invoiceCmp [invoice]="inv" [showPrint]="false" />
+      <div class="no-print mt-6 flex justify-end gap-2">
+        <button type="button" class="btn-secondary" (click)="invoiceCmp.print()">
+          🖨️ {{ 'invoice.print' | translate }}
+        </button>
         <button type="button" class="btn-primary" (click)="newSale()">
           {{ 'pos.newSale' | translate }}
         </button>

@@ -14,6 +14,9 @@ import { Invoice as InvoiceModel } from '../../../core/models/sale.model';
 export class Invoice {
   readonly invoice = input.required<InvoiceModel>();
 
+  /** Hide the built-in print button when the host provides its own actions row. */
+  readonly showPrint = input(true);
+
   print(): void {
     window.print();
   }

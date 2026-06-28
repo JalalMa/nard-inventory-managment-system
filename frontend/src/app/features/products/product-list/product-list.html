@@ -1,6 +1,6 @@
 <section class="space-y-4">
   <header class="flex flex-wrap items-center justify-between gap-3">
-    <h1 class="text-2xl font-bold text-slate-800">{{ 'nav.products' | translate }}</h1>
+    <h1 class="text-2xl font-bold text-[#222756]">{{ 'nav.products' | translate }}</h1>
     @if (isManager()) {
       <button type="button" class="btn-primary" (click)="openCreate()">
         + {{ 'product.add' | translate }}
@@ -79,7 +79,7 @@
                 </td>
                 <td class="px-3 py-2 text-slate-600">{{ product.category?.name || '—' }}</td>
                 <td class="px-3 py-2 text-end text-slate-700">
-                  {{ product.price | currency: 'USD' : 'symbol-narrow' }}
+                  {{ product.price | currency: 'JD' : 'symbol-narrow' }}
                 </td>
                 <td class="px-3 py-2 text-end">
                   <span

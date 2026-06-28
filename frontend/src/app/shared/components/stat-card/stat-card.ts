@@ -7,12 +7,15 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="card flex items-center gap-4 p-5">
-      <div class="flex h-12 w-12 items-center justify-center rounded-lg text-2xl" [class]="iconClass()">
+      <div
+        class="flex h-12 w-12 items-center justify-center rounded-lg text-2xl"
+        [class]="iconClass()"
+      >
         {{ icon() }}
       </div>
       <div class="min-w-0">
         <p class="truncate text-sm text-slate-500">{{ label() }}</p>
-        <p class="text-2xl font-bold text-slate-800">{{ value() }}</p>
+        <p class="text-2xl font-bold text-[#222756]">{{ value() }}</p>
       </div>
     </div>
   `,

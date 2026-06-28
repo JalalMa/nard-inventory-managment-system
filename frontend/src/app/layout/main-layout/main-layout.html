@@ -13,7 +13,7 @@
       @for (item of navItems(); track item.path) {
         <a
           [routerLink]="item.path"
-          routerLinkActive="bg-primary-50 text-primary-700"
+          routerLinkActive="bg-[#86DE76] text-primary-700"
           (click)="closeSidebar()"
           class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-[#86DE76] hover:text-[#222756] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
@@ -55,8 +55,8 @@
         @if (user(); as currentUser) {
           <div class="flex items-center gap-2">
             <div class="hidden text-end sm:block">
-              <p class="text-sm font-medium text-slate-800">{{ currentUser.email }}</p>
-              <p class="text-xs text-slate-500">{{ currentUser.role }}</p>
+              <p class="text-sm font-medium text-primary-900">{{ currentUser.email }}</p>
+              <p class="text-xs text-[#86DE76]">{{ currentUser.role }}</p>
             </div>
             <button type="button" class="btn-secondary" (click)="logout()">
               {{ 'auth.logout' | translate }}

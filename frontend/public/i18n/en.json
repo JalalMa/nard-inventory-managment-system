@@ -95,7 +95,9 @@
     "password": "Password",
     "emailInvalid": "Please enter a valid email",
     "passwordInvalid": "Password must be at least 6 characters",
-    "invalidCredentials": "Invalid email or password"
+    "invalidCredentials": "Invalid email or password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "reports": {
     "from": "From",

@@ -1,6 +1,6 @@
 <section class="space-y-4">
   <header class="flex flex-wrap items-center justify-between gap-3">
-    <h1 class="text-2xl font-bold text-slate-800">{{ 'nav.categories' | translate }}</h1>
+    <h1 class="text-2xl font-bold text-[#222756]">{{ 'nav.categories' | translate }}</h1>
     @if (isManager()) {
       <button type="button" class="btn-primary" (click)="openCreate()">
         + {{ 'category.add' | translate }}
@@ -24,7 +24,9 @@
           <thead>
             <tr class="border-b border-slate-200 text-start text-slate-500">
               <th class="px-3 py-2 text-start font-medium">{{ 'category.name' | translate }}</th>
-              <th class="px-3 py-2 text-start font-medium">{{ 'category.description' | translate }}</th>
+              <th class="px-3 py-2 text-start font-medium">
+                {{ 'category.description' | translate }}
+              </th>
               <th class="px-3 py-2 text-start font-medium">{{ 'category.created' | translate }}</th>
               @if (isManager()) {
                 <th class="px-3 py-2 text-end font-medium">{{ 'common.actions' | translate }}</th>
@@ -36,11 +38,17 @@
               <tr class="border-b border-slate-100 hover:bg-slate-50">
                 <td class="px-3 py-2 font-medium text-slate-800">{{ category.name }}</td>
                 <td class="px-3 py-2 text-slate-600">{{ category.description || '—' }}</td>
-                <td class="px-3 py-2 text-slate-500">{{ category.createdAt | date: 'mediumDate' }}</td>
+                <td class="px-3 py-2 text-slate-500">
+                  {{ category.createdAt | date: 'mediumDate' }}
+                </td>
                 @if (isManager()) {
                   <td class="px-3 py-2">
                     <div class="flex justify-end gap-2">
-                      <button type="button" class="btn-secondary px-2 py-1" (click)="openEdit(category)">
+                      <button
+                        type="button"
+                        class="btn-secondary px-2 py-1"
+                        (click)="openEdit(category)"
+                      >
                         {{ 'common.edit' | translate }}
                       </button>
                       <button type="button" class="btn-danger px-2 py-1" (click)="remove(category)">

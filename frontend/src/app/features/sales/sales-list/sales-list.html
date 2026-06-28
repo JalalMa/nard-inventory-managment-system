@@ -1,5 +1,5 @@
 <section class="space-y-4">
-  <h1 class="text-2xl font-bold text-slate-800">{{ 'nav.sales' | translate }}</h1>
+  <h1 class="text-2xl font-bold text-[#222756]">{{ 'nav.sales' | translate }}</h1>
 
   <div class="card p-4">
     @if (loading()) {
@@ -25,7 +25,7 @@
                 <td class="px-3 py-2 text-slate-600">{{ invoice.cashier }}</td>
                 <td class="px-3 py-2 text-end text-slate-600">{{ itemCount(invoice) }}</td>
                 <td class="px-3 py-2 text-end font-semibold text-slate-800">
-                  {{ invoice.total | currency: 'USD' : 'symbol-narrow' }}
+                  {{ invoice.total | currency: 'JD' : 'symbol-narrow' }}
                 </td>
                 <td class="px-3 py-2 text-end">
                   <button type="button" class="btn-secondary px-2 py-1" (click)="open(invoice)">

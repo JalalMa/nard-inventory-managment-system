@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
@@ -36,6 +36,9 @@ export class Pos implements OnInit {
   readonly checkingOut = signal(false);
   readonly invoice = signal<InvoiceModel | null>(null);
 
+  /** Reactive set of product ids currently in the cart, for highlighting the picker. */
+  readonly cartProductIds = computed(() => new Set(this.cart.items().map((i) => i.product.id)));
+
   constructor() {
     // Keep the picker's stock figures live.
     this.socket
@@ -66,6 +69,10 @@ export class Pos implements OnInit {
     if (!this.cart.add(product)) {
       this.notify.info(this.translate.instant('pos.stockLimit', { name: product.name }));
     }
+  }
+
+  cartQuantity(productId: number): number {
+    return this.cart.items().find((i) => i.product.id === productId)?.quantity ?? 0;
   }
 
   changeQuantity(productId: number, quantity: number): void {
