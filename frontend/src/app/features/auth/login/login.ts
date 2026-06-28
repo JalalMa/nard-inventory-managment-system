@@ -29,8 +29,8 @@ export class Login {
   }
 
   readonly form = this.fb.nonNullable.group({
-    email: ['manager@nard.io', [Validators.required, Validators.email]],
-    password: ['Manager123!', [Validators.required, Validators.minLength(6)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   submit(): void {

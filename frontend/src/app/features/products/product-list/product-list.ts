@@ -1,7 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
 import { Category } from '../../../core/models/category.model';
@@ -37,6 +45,11 @@ export class ProductList implements OnInit {
   private readonly confirm = inject(ConfirmService);
   private readonly socket = inject(SocketService);
   private readonly translate = inject(TranslateService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private static readonly DEFAULT_SORT = 'createdAt:DESC';
 
   readonly isManager = this.auth.isManager;
   readonly lowStockThreshold = LOW_STOCK_THRESHOLD;
@@ -77,12 +90,27 @@ export class ProductList implements OnInit {
   ngOnInit(): void {
     this.categories$.list().subscribe((categories) => this.categories.set(categories));
 
-    this.filters.valueChanges.pipe(debounceTime(300), distinctUntilChanged()).subscribe(() => {
-      this.page.set(1);
+    // The URL is the single source of truth: react to query params → sync the
+    // form, then load. This also covers refresh, deep links and back/forward.
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      this.filters.patchValue(
+        {
+          search: (params['search'] as string) ?? '',
+          categoryId: this.toNumber(params['categoryId']),
+          minPrice: this.toNumber(params['minPrice']),
+          maxPrice: this.toNumber(params['maxPrice']),
+          sort: (params['sort'] as string) ?? ProductList.DEFAULT_SORT,
+        },
+        { emitEvent: false },
+      );
+      this.page.set(this.toPage(params['page']));
       this.load();
     });
 
-    this.load();
+    // Filter edits update the URL (resetting to page 1); the subscription above reloads.
+    this.filters.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.syncUrl(1));
   }
 
   load(): void {
@@ -97,8 +125,7 @@ export class ProductList implements OnInit {
   }
 
   onPageChange(page: number): void {
-    this.page.set(page);
-    this.load();
+    this.syncUrl(page);
   }
 
   isRecentlyPatched(id: number): boolean {
@@ -160,6 +187,43 @@ export class ProductList implements OnInit {
       sortBy,
       sortDir: sortDir as 'ASC' | 'DESC',
     };
+  }
+
+  /** Writes the current filters + page to the URL (empty values are omitted for clean links). */
+  private syncUrl(page: number): void {
+    const f = this.filters.getRawValue();
+    const queryParams = this.dropEmpty({
+      search: f.search || null,
+      categoryId: f.categoryId,
+      minPrice: f.minPrice,
+      maxPrice: f.maxPrice,
+      sort: f.sort !== ProductList.DEFAULT_SORT ? f.sort : null,
+      page: page > 1 ? page : null,
+    });
+    void this.router.navigate([], { relativeTo: this.route, queryParams, replaceUrl: true });
+  }
+
+  private dropEmpty(obj: Record<string, string | number | null>): Params {
+    const out: Params = {};
+    for (const [key, value] of Object.entries(obj)) {
+      if (value !== null && value !== undefined && value !== '') {
+        out[key] = value;
+      }
+    }
+    return out;
+  }
+
+  private toNumber(value: unknown): number | null {
+    if (value === undefined || value === null || value === '') {
+      return null;
+    }
+    const n = Number(value);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  private toPage(value: unknown): number {
+    const n = parseInt(String(value), 10);
+    return Number.isFinite(n) && n > 0 ? n : 1;
   }
 
   private flashRow(productId: number): void {

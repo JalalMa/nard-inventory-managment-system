@@ -20,6 +20,7 @@
           formControlName="email"
           class="form-input"
           autocomplete="username"
+          [placeholder]="'auth.emailPlaceholder' | translate"
         />
         @if (form.controls.email.touched && form.controls.email.invalid) {
           <p class="mt-1 text-xs text-red-600">{{ 'auth.emailInvalid' | translate }}</p>
@@ -35,6 +36,7 @@
             formControlName="password"
             class="form-input pe-10"
             autocomplete="current-password"
+            [placeholder]="'auth.passwordPlaceholder' | translate"
           />
           <button
             type="button"
